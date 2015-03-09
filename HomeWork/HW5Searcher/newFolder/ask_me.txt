@@ -1,0 +1,1 @@
+java ru.kpfu.itis.group11408.zamaleev.hw5Searcher.Main -v -r c:/Users/Ильгиз/IdeaProjects/HomeWork/src/ru/kpfu/itis/group11408/zamaleev/hw5Searcher esd
