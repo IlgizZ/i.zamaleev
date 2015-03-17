@@ -32,8 +32,14 @@ public class Search {
     }
 
     private void nonViewSearch() throws SearcherExceptions{
-        String[] fileNames = getFiels((new File(this.directory)).list());
-        String[] directoryNames = getDirectories((new File(this.directory)).list());
+    	File f = new File(this.directory);
+    	String[] s = f.list();
+    	String[] fileNames = new String [0];
+    	String[] directoryNames = new String[0];
+    	if (s != null){
+    		fileNames = getFiels(s);
+    		directoryNames = getDirectories(s);
+    	}        
         for (int i = 0; i < fileNames.length; i++) {
             if (fileNames[i].indexOf(this.fileName) > -1){
                 System.out.println(this.depthName + fileNames[i]);
@@ -57,9 +63,15 @@ public class Search {
     }
 
     private void viewSearch() throws SearcherExceptions{
-        String[] fileNames = getFiels((new File(this.directory)).list());
-        String[] directoryNames = getDirectories((new File(this.directory)).list());
-        for (int i = 0; i < directoryNames.length; i++) {
+    	File f = new File(this.directory);
+    	String[] s = f.list();
+    	String[] fileNames = new String [0];
+    	String[] directoryNames = new String[0];
+    	if (s != null){
+    		fileNames = getFiels(s);
+    		directoryNames = getDirectories(s);
+    	} 
+    	for (int i = 0; i < directoryNames.length; i++) {
             if (directoryNames[i].indexOf(this.fileName) > -1){
                 System.out.println(this.depthName + directoryNames[i]);
             }

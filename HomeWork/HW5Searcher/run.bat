@@ -1,3 +1,1 @@
-cd bin
-java ru.kpfu.itis.group11408.zamaleev.hw5Searcher.Main -d 3 c:/newFolder as 
-cd ..
+java -cp .\bin\ ru.kpfu.itis.group11408.zamaleev.hw5Searcher.Main -r c:/ 1 
