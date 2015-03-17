@@ -7,8 +7,8 @@ import java.util.Arrays;
 public class Main {
 
 	public static void main(String[] args) {
-       /* String dirPath = "c:/Users/Ильгиз/IdeaProjects/HomeWork/src/ru/kpfu/itis/group11408/zamaleev/hw5Searcher";
-        String[] ar = {"-d", "3", dirPath, "e"};*/
+        //String dirPath = "c:/";
+        //String[] ar = {"-d", "3", "-v",  dirPath, "Program"};
         try {
             Search search = createSerch(args);
             search.start();
