@@ -1,2 +1,1 @@
-cd bin
-java ru.kpfu.itis.group11408.zamaleev.hw
+java -cp .\bin\ ru.kpfu.itis.group11408.zamaleev.hw
