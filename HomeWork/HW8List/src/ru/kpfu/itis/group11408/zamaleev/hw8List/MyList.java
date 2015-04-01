@@ -6,8 +6,7 @@ public class MyList<E> implements List<E> {
 
     private Item<E> head;
     private Item<E> last;
-    private int size;
-    private int nextIndex;
+    private int size = 0;
 
     class Item<E>{
         private Item<E> next;
@@ -29,28 +28,23 @@ public class MyList<E> implements List<E> {
     }
 
     class MyIterator implements Iterator<E>{
-
+        private int nextIndex = 0;
         @Override
         public boolean hasNext() {
-            if (isEmpty()) return false;
-            else {
-                if (nextIndex < size()){
-                    return true;
-                }
-                return false;
-            }
+            return nextIndex != size;
         }
 
         @Override
         public E next() {
-            if (!isEmpty() && hasNext()){
+            if (hasNext()){
                 Item<E> x = head;
                 for (int i = 0; i < nextIndex; i++) {
                     x = x.getNext();
                 }
+                nextIndex++;
                 return x.data;
             }
-            System.out.println("List hasn't this element");
+            System.out.println("List hasn't next element");
             return null;
         }
 
@@ -63,7 +57,7 @@ public class MyList<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        return head.getNext() == null;
+        return head == null;
     }
 
     @Override
@@ -73,7 +67,6 @@ public class MyList<E> implements List<E> {
 
     @Override
     public Iterator<E> iterator() {
-        nextIndex = 0;
         return new MyIterator();
     }
 
@@ -95,8 +88,14 @@ public class MyList<E> implements List<E> {
 
     @Override
     public boolean add(E e) {
-        size++;
         Item<E> newItem = new Item<E>(null, e);
+        if (size == 0){
+            head = newItem;
+            last = newItem;
+            size ++;
+            return true;
+        }
+        size++;
         last.next = newItem;
         last = newItem;
         return true;
@@ -106,22 +105,28 @@ public class MyList<E> implements List<E> {
     public boolean remove(Object o) {
 
         if (o == null) {
-            for (Item<E> x = head; x != null; x = x.next) {
+            Item<E> previous = head;
+            for (Item<E> x = previous.next; x != null; x = x.next) {
                 if (x.data == null) {
-                    x = x.next;
+                    previous.next = x.next;
+                    size--;
                     return true;
                 }
+
             }
         } else {
             if (head == null){
                 System.out.println("List is empty!!");
                 return false;
             }
-            for (Item<E> x = head; x != null; x = x.next) {
+            Item<E> previous = head;
+            for (Item<E> x = previous.next; x != null; x = x.next) {
                 if (o.equals(x.data)) {
-                    x = x.next;
+                    previous.next = x.next;
+                    size--;
                     return true;
                 }
+                previous = x;
             }
         }
         return false;
@@ -129,31 +134,74 @@ public class MyList<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        // TODO Auto-generated method stub
-        return false;
+        Iterator<?> it = c.iterator();
+        for (Item<E> x = head; (x != null) && (it.hasNext()); x = x.next) {
+            if (!it.next().equals(x.data)) {
+                return false;
+            }
+        }
+        return !it.hasNext();
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        // TODO Auto-generated method stub
-        return false;
+        Iterator<?> it = c.iterator();
+        while (it.hasNext()){
+            add((E) it.next());
+        }
+        it = c.iterator();
+        return it.hasNext();
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        // TODO Auto-generated method stub
-        return false;
+        Iterator collectionIt = iterator();
+        if (!collectionIt.hasNext())
+            return false;
+        Iterator it = iterator();
+        Item<E> x = head;
+        while (index > 1 && (it.hasNext())){
+            it.next();
+            index--;
+            x = x.next;
+        }
+        if (!it.hasNext())
+                return false;
+        Item<E> collectionHead = new Item<>(null, (E)collectionIt.next());
+        size++;
+        Item<E> collectionItem = collectionHead;
+        while(collectionIt.hasNext()){
+            collectionItem.next = new Item<>(null, (E)collectionIt.next());
+            collectionItem = collectionItem.next;
+            size++;
+        }
+        collectionItem.next = x.next;
+        x.next = collectionHead;
+        return true;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        // TODO Auto-generated method stub
+        Iterator it = c.iterator();
+        while (it.hasNext()){
+            Object o = it.next();
+            if (contains(o)){
+                remove(o);
+            }
+        }
         return false;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        // TODO Auto-generated method stub
+        Iterator it = iterator();
+        while (it.hasNext()){
+            Object o = it.next();
+            if (c.contains(o)){
+                remove(o);
+                it = iterator();
+            }
+        }
         return false;
     }
 
@@ -185,20 +233,42 @@ public class MyList<E> implements List<E> {
 
     @Override
     public E set(int index, E element) {
-        // TODO Auto-generated method stub
-        return null;
+        Iterator it = iterator();
+        Item<E> x = head;
+        int i = index;
+        while (it.hasNext() && i > 1){
+            x = x.next;
+            i--;
+        }
+        if (!it.hasNext()){
+            return null;
+        }
+        size++;
+        x.next = new Item<>(x.next, element);
+        return x.next.next.data;
     }
 
     @Override
     public void add(int index, E element) {
-        // TODO Auto-generated method stub
-
+       set(index, element);
     }
 
     @Override
     public E remove(int index) {
-        // TODO Auto-generated method stub
-        return null;
+        Iterator it = iterator();
+        Item<E> x = head;
+        while (it.hasNext() && index > 1){
+            x = x.next;
+            it.next();
+            index--;
+        }
+        if (index > 1){
+            return null;
+        }
+        size--;
+        Item<E> tmp = x;
+        x = x.next;
+        return tmp.data;
     }
 
     @Override
@@ -222,26 +292,39 @@ public class MyList<E> implements List<E> {
 
     @Override
     public int lastIndexOf(Object o) {
-        // TODO Auto-generated method stub
+        // how do this in List without array??
         return 0;
     }
 
     @Override
     public ListIterator<E> listIterator() {
-        // TODO Auto-generated method stub
+        // how do this in List without array??
         return null;
     }
 
     @Override
     public ListIterator<E> listIterator(int index) {
-        // TODO Auto-generated method stub
+        // how do this in List without array??
         return null;
     }
 
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
-        // TODO Auto-generated method stub
-        return null;
+        if (fromIndex < 0 || toIndex > size){
+            System.out.println("Incorrect fromIndex or toIndex.");
+            return null;
+        }
+        MyList list = new MyList();
+        Iterator it = iterator();
+        int i = fromIndex;
+        while(i > 1){
+            it.next();
+            i--;
+        }
+        for (int j = fromIndex; j < toIndex; j++) {
+            list.add(it.next());
+        }
+        return list;
     }
 
 }
