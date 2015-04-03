@@ -7,38 +7,48 @@ import java.util.LinkedList;
  * Created by Ilgiz on 23.03.2015.
  */
 public class SortedSet <T extends Comparable> implements Iterable<T> {
-    LinkedList<T> list;
+    private LinkedList<T> list;
 
     SortedSet(){
         this.list = new LinkedList<T>();
     }
 
-    class MyIterator implements Iterator<T>{
+    public boolean isEmpty(){
+        return list.isEmpty();
+    }
+
+    public int size(){
+        return list.size();
+    }
+    public void remove(T t){
+        Iterator it = list.iterator();
         int i = 0;
-        @Override
-        public boolean hasNext() {
-            if (list.isEmpty()) return false;
-            else {
-                if (i + 1 < list.size()){
-                    i++;
-                    return true;
-                }
-                return false;
-            }
+        int j = 0;
+        while (it.hasNext() && ((j = t.compareTo(it.next())) >= 1)){
+            i++;
         }
-
-        @Override
-        public T next() {
-            if (!list.isEmpty()){
-                return list.peek();
-            }
-            return null;
+        if (j == 0){
+            list.remove(i);
         }
+    }
 
+    public void add(T t){
+        Iterator it = list.iterator();
+        int i = 0;
+        int j = 1;
+        while (it.hasNext() && ((j = t.compareTo(it.next())) >= 1)){
+            i++;
+        }
+        if (j != 0){
+            list.add(i, t);
+        }
     }
 
     @Override
-    public MyIterator iterator() {
-        return new MyIterator();
+    public Iterator<T> iterator() {
+        if (list != null){
+            return list.iterator();
+        }
+        return null;
     }
 }

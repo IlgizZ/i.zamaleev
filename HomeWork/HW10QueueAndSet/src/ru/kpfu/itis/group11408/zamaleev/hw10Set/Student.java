@@ -1,12 +1,20 @@
 package ru.kpfu.itis.group11408.zamaleev.hw10Set;
 
-public class    Student {
-	private int grade;
-	private int year;
+public class    Student implements Comparable{
+
 	private String name;
 	private String facultyName;
-	private boolean isIll;
-	
+	private int grade;
+	private int year;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getFacultyName() {
 		return facultyName;
 	}
@@ -31,65 +39,53 @@ public class    Student {
 		this.year = year;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public Student(int grade, int year, String name, String facultyName) {
-		this.grade = grade;
-		this.year = year;
+	public Student(String name, String facultyName, int grade, int year) {
 		this.name = name;
 		this.facultyName = facultyName;
-		this.isIll = false;
-	}
-	
-	
-	
-	/*public static void main(String[] args){
-		Student[] student11408 = new Student[32];
-		for (int i = 0; i < student11408.length; i++){
-			int grade = 1 + (int)(Math.random() * 100);
-			int year = 1994 + (int)(Math.random() * 3.0);
-			String name = "Student " + i;
-			student11408[i] = new Student(grade, year, name);
-		}
-		student11408[30] = new Student(1,0,null);
-		StudentHelper helper = new StudentHelper();
-		mySort(student11408, helper.getNameComparated());
-		System.out.println(Arrays.toString(student11408));
-		mySort(student11408, helper.getGradeComparated());
-		System.out.println(Arrays.toString(student11408));
-		mySort(student11408, helper.getYearComparated());
-		System.out.println(Arrays.toString(student11408));
-	}*/
-
-	public boolean isIll() {
-		return isIll;
+		this.grade = grade;
+		this.year = year;
 	}
 
-	public void setIll(boolean isIll) {
-		this.isIll = isIll;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Student student = (Student) o;
+
+		if (grade != student.grade) return false;
+		if (year != student.year) return false;
+		if (!name.equals(student.name)) return false;
+		return facultyName.equals(student.facultyName);
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = name.hashCode();
+		result = 31 * result + facultyName.hashCode();
+		result = 31 * result + grade;
+		result = 31 * result + year;
+		return result;
 	}
 
 	@Override
 	public String toString() {
-		return "Student [name=" + name + ", year=" + year + ", grade=" + grade
-				 + "]";
+		return "Student{" +
+				"name='" + name + '\'' +
+				", facultyName='" + facultyName + '\'' +
+				", grade=" + grade +
+				", year=" + year +
+				'}';
 	}
-	
-	/*public static void mySort(Object[] o, Comparator c){
-		for (int i = 0; i < o.length; i ++){
-			for (int j = 1; j < o.length - i; j++){
-				if (c.compare(o[j - 1], o[j]) > 0){
-					Object tmp = o[j - 1];
-					o[j - 1] = o[j];
-					o[j] = tmp;					
-				}
-			}
+
+	@Override
+	public int compareTo(Object o) {
+		if (equals(o)){
+			return 0;
+		} else if (o instanceof Student){
+			return getGrade() - ((Student) o).getGrade();
 		}
-	}*/
+		return 1;
+	}
 }
