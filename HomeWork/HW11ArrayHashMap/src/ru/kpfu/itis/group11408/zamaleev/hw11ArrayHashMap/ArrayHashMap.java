@@ -98,7 +98,7 @@ public class ArrayHashMap<K, V> implements Map<K, V>{
 
 	@Override
 	public void putAll(Map<? extends K, ? extends V> m) {
-		//как обращаться к элементам Map???
+		//как обращаться к элементам Map m???
 	}
 
 	@Override
@@ -112,19 +112,19 @@ public class ArrayHashMap<K, V> implements Map<K, V>{
 
 	@Override
 	public Set<K> keySet() {
-		//создавать внутренний класс Set<K>???
+		//создавать внутренний класс реализующий интерфейс Set<K>???
 		return null;
 	}
 
 	@Override
 	public Collection<V> values() {
-		//создавать
+		//создавать внутренний класс реализующий интерфейс Collection<V>???
 		return null;
 	}
 
 	@Override
 	public Set<java.util.Map.Entry<K, V>> entrySet() {
-        //создавать внутренний класс Set<java.util.Map.Entry<K, V>>???
+        //создавать внутренний класс реализующий итерфейс Set<java.util.Map.Entry<K, V>>???
 		return null;
 	}
 
