@@ -1,0 +1,87 @@
+ if() 
+ {
+ }
+
+package ru.kpfu.itis.group11408.zamaleev.cl1;
+
+public class Polinom {
+	double [] coefficient;
+	
+	public Polinom (){
+		this.coefficient = new double[0];
+	}
+	
+	public Polinom (double [] a) {
+		this.coefficient = new double[a.length];
+		for (int i = 0; i < a.length; i++){
+			this.coefficient[i] = a[i];
+		}				
+	}
+	
+	public void plus(Polinom a){
+		this.doOneSize(a.coefficient);
+		for (int i = 0; i < a.coefficient.length; i++){
+			this.coefficient[i] += a.coefficient[i];
+		}
+		this.deleteNull();
+	}
+	
+	public void deleteNull(){
+		int i = this.coefficient.length - 1;
+		while (this.coefficient[i] == 0){
+			i--;
+		}
+		double [] tmp = new double[i + 1];
+		this.doOneSize(tmp);
+	}
+	
+	public void doOneSize(double [] m){
+		if (this.coefficient.length < m.length)
+		{
+			double [] tmp = new double[this.coefficient.length];
+			for (int i = 0; i < this.coefficient.length; i++){
+				tmp[i] = this.coefficient[i];
+			}
+			this.coefficient = new double[m.length];
+			for (int i = 0; i < tmp.length; i++){
+				this.coefficient[i] = tmp[i];
+			}
+		}
+		
+	}
+	
+	@Override
+	public String toString() {
+		String s = "";
+		if (this.coefficient[0] != 0)
+		{
+			s += this.coefficient[0] + " +";
+		}
+		for (int i = 1; i < this.coefficient.length; i ++){
+			if (this.coefficient[i] > 0)
+			{
+				s += " " + this.coefficient[i] + " * x^" + i +" +";
+			} else if (this.coefficient[i] < 0)
+			{
+				s += "- x^" + (i + 1) +" ";
+			}
+		}
+		if (s.charAt(s.length() - 1) == '+')
+		{
+			return s.substring(0, s.length() - 2);
+		} else {
+			return s;
+		}
+	}
+	
+	public static void main(String [] args){
+		double [] m = {1, 0, 0, 0}; 
+		Polinom a = new Polinom(m);
+		double [] m1 = {1, 0, 0, 0, 0, 0}; 
+		Polinom b = new Polinom(m1);
+		a.plus(b);
+		System.out.println(a.toString());
+		
+	}
+
+}
