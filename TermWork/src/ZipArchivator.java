@@ -133,51 +133,6 @@ public class ZipArchivator {
 
 	}
 
-	class MyByte{
-		byte aByte = 0;
-		byte cursour = 0;
-
-		public byte getCursour() {
-			return cursour;
-		}
-
-		public void setCursour(byte cursour) {
-			this.cursour = cursour;
-		}
-
-		public byte getByte() {
-			return aByte;
-		}
-
-		public void setByte(byte aByte) {
-			this.aByte = aByte;
-		}
-
-		public boolean isFull() {
-			return cursour == 8;
-		}
-
-		public void addByte(int i){
-			if (!isFull()){
-				cursour++;
-				aByte = (byte)(aByte << 1);
-				aByte += (byte) i;
-			} else {
-				cursour = 1;
-				aByte = (byte)i;
-			}
-		}
-
-		/**
-		 *
-		 * @return Empty byte count.
-		 */
-		public int doLastByte(){
-			int result = (8 - cursour);
-			aByte = (byte)(aByte << result );
-			return result;
-		}
-	}
 	public void getFileBytes(String fileName) {
 		if (fileName == null) {
 			try {
@@ -217,7 +172,6 @@ public class ZipArchivator {
 				}
 			}
 			os.write('$');
-			MyByte myByte = new MyByte();
 			for (int i = 0; i < text.length(); i++) {
 				char c = text.charAt(i);
 				int j = 0;
@@ -225,21 +179,24 @@ public class ZipArchivator {
 				while (result[j].getKey() != c) {
 					j++;
 				}
-				for (byte b : result[j].getValue()) {
-					myByte.addByte(b);
-					if (myByte.isFull()){
-						os.write(myByte.getByte());
-						System.out.print(myByte.getByte() + " ");
+				/*if (i + 1 < text.length()){
+					int k = 0;
+					while (result[k].getKey() != text.charAt(i + 1)) {
+						k++;
 					}
+					if (result[j].getValue().length + result[k].getValue().length <= 8){
+						for (byte b : result[j].getValue()) {
+							//summ bytes
+							outByte = (byte)(outByte << 1 + 1);
+						}
+						outByte = (byte)(outByte << (8 - result[j].getValue().length));
+					}
+				}*/
+
+				for (byte b : result[j].getValue()) {
+					os.write(b);
 				}
 			}
-			//Check that!!!
-			int j = myByte.doLastByte();
-			os.write(myByte.getByte());
-			System.out.print(myByte.getByte() + " ");
-			os.write(j);
-			System.out.print(j);
-			//
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
