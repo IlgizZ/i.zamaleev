@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-public class Window extends javax.swing.JFrame implements ActionListener {
+public class Window extends JFrame implements ActionListener {
 
 	public Window() {
 		initComponents();
@@ -42,7 +42,7 @@ public class Window extends javax.swing.JFrame implements ActionListener {
 		button.setSize(165, 50);
 		button.setText("Архивировать");
 		button.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
+			public void mouseClicked(MouseEvent evt) {
 				jButtonMouseClicked(evt);
 			}
 
@@ -61,7 +61,7 @@ public class Window extends javax.swing.JFrame implements ActionListener {
 		button1.setSize(165, 50);
 		button1.setText("Разархивировать");
 		button1.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
+			public void mouseClicked(MouseEvent evt) {
 				try {
 					jButton1MouseClicked(evt);
 				} catch (IOException e) {
@@ -81,7 +81,7 @@ public class Window extends javax.swing.JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent action) {
 	}
 	
-	private void jButton1MouseClicked(java.awt.event.MouseEvent evt) throws IOException {
+	private void jButton1MouseClicked(MouseEvent evt) throws IOException {
         JOptionPane.showMessageDialog(rootPane, "The Decoded String is "+"pq.decode()");
         
     }
