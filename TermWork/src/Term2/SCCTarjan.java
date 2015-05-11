@@ -67,11 +67,21 @@ public class SCCTarjan {
 
     // Usage example
     public static void main(String[] args) {
-        Graph g = new Graph(new List[3]);
-        g.add(2, 0);
-        g.add(2, 1);
+        Graph g = new Graph(new List[8]);
         g.add(0, 1);
-        g.add(1, 0);
+        g.add(1, 2);
+        g.add(1, 3);
+        g.add(1, 5);
+        g.add(2, 0);
+        g.add(2, 3);
+        g.add(3, 4);
+        g.add(4, 3);
+        g.add(5, 4);
+        g.add(5, 6);
+        g.add(6, 5);
+        g.add(6, 7);
+        g.add(7, 6);
+        g.add(7, 4);
 
         Components components = new SCCTarjan().scc(g);
         System.out.println(components);
